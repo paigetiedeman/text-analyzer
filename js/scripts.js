@@ -67,12 +67,23 @@ function omitOffensive (text) {
   return result.join(" ");
 }
 
-// Not right
-// function commonWordCounter(text) {
-//   const wordsArray = text.split(" ");
-
-//   return wordCount;
-// }
+// WIP from Ben & Nathan
+function commonWordCounter(text) {
+  const wordArray = text.trim().toLowerCase().split(" ");
+  const uniqueArray = [];
+  if (text.trim().length ===0) {
+    return 0;
+  }
+  wordArray.forEach(function(element) {
+    if (!uniqueArray.includes(element)) {
+      uniqueArray.push(element);
+    }
+  });
+  uniqueArray.sort((a, b) => {
+    return occurrenceCounter(b, text) - occurrenceCounter(a, text)
+  });
+  return uniqueArray.slice(0,3);
+}
 
 // UI Logic
 
@@ -84,9 +95,11 @@ $(document).ready(function(){
     const wordCount = wordCounter(passage);
     const occurrencesOfWord = occurrenceCounter(word, passage);
     const omitsResults = omitOffensive(passage);
+    // const commonCounter = commonWordCounter(passage);
     $("#total-count").html(wordCount);
     $("#selected-count").html(occurrencesOfWord);
     $("#bolded-passage").html(boldPassage(word, passage));
     $("#offensive").html(omitsResults);
+    // $("#word-list").html(commonCounter);
   });
 });
