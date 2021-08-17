@@ -15,6 +15,9 @@ function wordCounter(text) {
 }
 
 function occurrenceCounter(word, text) {
+  if ((text.trim().length === 0) || (word.trim().length === 0)) {
+    return "You need to enter both a word and a text passage!";
+  }
   const wordArray = text.split(" ");
   let wordCount = 0;
   wordArray.forEach(function(element) {
@@ -22,5 +25,35 @@ function occurrenceCounter(word, text) {
       wordCount++;
     }
   });
-  return wordCount;
+  return "There are " + wordCount + " total matches!";
 }
+
+function boldPassage(word, text) {
+  let htmlString = "<p>";
+  let textArray = text.split(" ");
+  textArray.forEach(function(element, index) {
+    if (word === element) {
+      htmlString = htmlString.concat("<b>" + element + "</b>");
+    } else {
+      htmlString = htmlString.concat(element);
+    }
+    if (index !== (textArray.length - 1)) {
+      htmlString = htmlString.concat(" ");
+    }
+  });
+  return htmlString + "</p>";
+}
+
+// UI Logic
+
+$(document).ready(function(){
+  $("form#word-counter").submit(function(event){
+    event.preventDefault();
+    const passage = $("#text-passage").val();
+    const word = $("#word").val();
+    const wordCount = wordCounter(passage);
+    const occurrencesOfWord = occurrenceCounter(word, passage);
+    $("#total-count").html(wordCount);
+    $("#selected-count").html(occurrencesOfWord);
+  });
+});
