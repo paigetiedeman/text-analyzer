@@ -1,19 +1,26 @@
 // Utility Logic
 
-function noInputtedWord(word, text) {
-  return ((text.trim().length === 0) || (word.trim().length === 0));
+function noInputtedWord() {
+  for (let i=0; i < arguments.length; i++) {
+    console.log(arguments[i]);
+    if (arguments[i].trim().length === 0) {
+      return true;
+    }
+  }
+  return false;
 }
+
 // Business Logic
 
 function wordCounter(text) {
-  if (text.trim().length === 0) {
+  if (noInputtedWord(text)) {
     return 0;
   }
   let wordCount = 0;
   const wordArray = text.split(" ");
   wordArray.forEach(function(element) {
     if (!Number(element)) {
-    wordCount++;
+      wordCount++;
     }
   });
   return wordCount;
@@ -67,6 +74,18 @@ function omitOffensive (text) {
   return result.join(" ");
 }
 
+function firstInstanceOfWord(word, text) {
+  const textArray = text.split(" ");
+  let position = -1;
+  textArray.forEach(function(element, index) {
+    console.log(index);
+    if ((word === element) && (position === -1)) {
+      position = index;
+    }
+  });
+  return position;
+}
+
 // WIP from Ben & Nathan
 function commonWordCounter(text) {
   const wordArray = text.trim().toLowerCase().split(" ");
@@ -84,6 +103,37 @@ function commonWordCounter(text) {
   });
   return uniqueArray.slice(0,3);
 }
+
+// Erik Solution 
+// function commonWordCounter (passage) {
+//   const wordArray = passage.split(" ");
+//   let punctuationlessPassage = passage.replace(/[.,\?#!$%\^&\*;:{}=\-_'~()]/g, "");
+//   let first = ["", 0];
+//   let second = ["", 0];
+//   let third = ["", 0];
+
+//   wordArray.forEach(function (word) {
+//     let wordCount = occurrenceCounter(word, passage);
+//     if (wordCount > first[1]) {
+//       third[0] = second[0];
+//       third[1] = second[1];
+//       second[0] = first[0];
+//       second[1] = first[1];
+//       first[0] = word;
+//       first[1] = wordCount;
+//     } else if (wordCount > second[1]) {
+//       third[0] = second[0];
+//       third[1] = second[1];
+//       second[0] = word;
+//       second[1] = wordCount;
+//     } else if (wordCount > third[1]) {
+//       third[0] = word;
+//       third[1] = wordCount;
+//     }
+//   })
+//   // need return 
+// }
+
 
 // UI Logic
 
